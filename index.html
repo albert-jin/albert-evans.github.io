@@ -9,31 +9,36 @@ navbar_title: Home
         {% include widgets/profile_card_mini.html %}
     </div>
     <div class="col-lg-9 col-md-8">
-
         {% include widgets/profile_card_bio_only.html %}
 
-        <!-- Debugging widgets -->
-        {% include widgets/debug_repo_name.html %}
-        {% include widgets/debug_url.html %}
-
-        {% if site.data.display.homepage.show_experience %}
-            {% include widgets/experience_card.html %}
-        {% endif %}
-
-        {% if site.data.display.homepage.show_news %}
-        {% assign count_news = site.news | size %}
-        {% if count_news > 0 %}
+        {% include widgets/experience_card.html %}
         {% include widgets/news_card.html limit=site.data.display.homepage.num_news %}
-        {% endif %}
-        {% endif %}
 
-        {% if site.data.display.homepage.show_selected_publications %}
-        {% assign pubs = site.publications | sort: "date" | reverse | where: "selected", true %}
-        {%
-        include widgets/publication_card.html
-        publications=pubs
-        title='<i class="fas fa-star"></i> Selected Publications'
-        %}
-        {% endif %}
+        <div class="my-3 p-0 bg-white shadow-sm rounded-xl">
+            <h6 class="border-bottom border-gray p-3 mb-0"><i class="fas fa-compass"></i> Quick Navigation</h6>
+            <div class="p-3">
+                <a class="btn btn-sm btn-outline-dark mr-2 mb-2" href="{{ '/publications' | relative_url }}">Publications</a>
+                <a class="btn btn-sm btn-outline-dark mr-2 mb-2" href="{{ '/talks' | relative_url }}">Talks</a>
+                <a class="btn btn-sm btn-outline-dark mr-2 mb-2" href="{{ '/scholarships-certificates' | relative_url }}">Scholarships & Certificates</a>
+                <a class="btn btn-sm btn-outline-dark mr-2 mb-2" href="{{ '/academic-experience' | relative_url }}">Academic Experience</a>
+                <a class="btn btn-sm btn-outline-dark mr-2 mb-2" href="{{ '/social-service' | relative_url }}">Social Service</a>
+            </div>
+        </div>
+
+        <div class="my-3 shadow-sm rounded-xl visitor-map-card">
+            <h6 class="p-3 mb-0 visitor-map-title"><i class="fas fa-globe-asia"></i> Visitor Map</h6>
+            <div class="visitor-map-body text-center">
+                <div class="visitor-map-inner">
+                    <div class="visitor-map-caption">Live global footprints and visitor distribution.</div>
+                    <a href="https://clustrmaps.com/site/1bymr" title="Visit tracker" target="_blank" rel="noopener">
+                        <img
+                            class="img-fluid rounded-sm shadow-sm visitor-map-image"
+                            src="https://clustrmaps.com/map_v2.png?cl=080808&w=500&t=tt&d=HbAxcm84DIc22DN40pBFcj0hbq7mshumdeixyMefXzY&co=ffffff&ct=808080"
+                            alt="ClustrMaps visit tracker map">
+                    </a>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>

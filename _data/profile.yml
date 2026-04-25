@@ -1,61 +1,115 @@
-primary_name: "Your Name"
-secondary_name: ""
-navbar_name: "Your Name"
+﻿primary_name: "Weiqiang Jin"
+secondary_name: "\u91d1\u4f1f\u5f3a"
+navbar_name: "Weiqiang Jin (Albert Jin)"
 
 positions:
-- name: Title or Position
-- name: Affiliation Name
-  logo: /assets/images/badges/MIT_Social_circle.png  # Logo is optional
+- name: Ph.D. Candidate, Information and Communication Engineering
+- name: AI, NLP, MARL, and LLM Reasoning/Tuning
+- name: Xi'an Jiaotong University, China
 
-
-email: "your@email.com"
-# cv_link: link-to-your-cv-file
-gscholar: xFmQpf4AAAAJ  # This is an example, replace it with your own Google Scholar ID
-github: your_github_id
-twitter: your_twitter_id  # Do not include the '@' symbol
-# wechat_qrcode: /assets/images/etc/wechat.jpg
-# wechat_prompt: >-
-#   Please tell me your <strong>name</strong> and <strong>affiliation</strong> (current or past) when adding my wechat. Thanks!
-# linkedin: your-linked-in-id
-# orcid: 0000-0000-0000-0000
+email: "weiqiangjin@stu.xjtu.edu.cn"
+phone: "+86-13040617148"
+website: "https://albert-jin.github.io/"
+location: "China"
+employer: "Xi'an Jiaotong University"
+age_gender: "28, Male"
+cv_link: /assets/files-albert-evans/Weiqiang%20Jin%20Resume.pdf
+gscholar: iDZcqAIAAAAJ
+arxiv: http://arxiv.org/a/jin_w_1
+link3: https://link3.cc/albert0309jin
+dblp: https://dblp.org/pid/304/8358.html
+github: albert-jin
+kaggle: weiqiangjin
+steam: 5b45n
+twitter: Golden%20Albert
+zhihu: https://www.zhihu.com/people/jin-wei-qiang-3
+orcid: 0000-0002-6656-6061
 
 short_bio_text_justify: false
 short_bio: >-
   <p>
-    A <a href="https://en.wikipedia.org/wiki/Bicolor_cat" target="_blank">bicolor cat</a> is a cat with white fur combined with fur of some other colour, for example solid black, tabby, or colourpointed.
+    Greetings! I am Weiqiang Jin (Albert Jin), Ph.D. candidate at Xi'an Jiaotong University (since 2022-09). Research focus:
+    LLM reasoning and tuning, natural language processing, multi-agent reinforcement learning, intelligent retrieval,
+    and data-centric AI applications. At this stage, my core research emphasis is on medical foundation models, AIVC virtual cells,
+    and TTS optimization for large-model MoE routing as well as LLM-TTS inference.
   </p>
   <p>
-    There are various patterns of a bicolour cat. These range from the Van-patterned (colour on the crown of the head 
-    and the tail only) to a solid colour with a throat locket or medallion. Bicolour coats are found in many cat breeds, 
-    as well as being common in domestic longhair and domestic shorthair cats.
+    He was a visiting research assistant at The University of Hong Kong from February to September 2025
+    and then served as an Honorary Research Assistant at The Chinese University of Hong Kong from September 2025 to February 2026,
+    under the supervision of Professor Irwin King.
   </p>
-
-portrait_url: /assets/images/photos/portrait.jpg
+  <p>
+    He is currently a research intern at Huawei's Foundational LLM Department in Shenzhen (Foundational LLM Team),
+    where he focuses on practical LLM system development, model reasoning/tuning workflows, and industry-oriented deployment.
+  </p>
+  <p>
+    He plans to pursue a 2-3 year postdoctoral position at Imperial College London in the future.
+    If <span data-toggle="tooltip" data-placement="top" title="&#x4E2D;&#x6587;&#x63D0;&#x793A;&#xFF1A;&#x5982;&#x679C;&#x60A8;&#x672C;&#x4EBA;&#x3001;&#x6216;&#x60A8;&#x6240;&#x5728;&#x7684;&#x5927;&#x5B66;&#x6216;&#x7814;&#x7A76;&#x673A;&#x6784;&#x613F;&#x610F;&#x63D0;&#x4F9B;&#x652F;&#x6301;&#xFF0C;&#x6B22;&#x8FCE;&#x4E0E;&#x6211;&#x8054;&#x7CFB;&#x3002;">you, your university, or your research institution</span>
+    are willing to support his application for <strong><a target="_blank" href="https://www.nsfc.gov.cn/p1/3381/2824/121517.html">Overseas Outstanding Young Scientist programs</a></strong>,
+    please contact: <a href="mailto:weiqiangjin@stu.xjtu.edu.cn">weiqiangjin@stu.xjtu.edu.cn</a>.
+  </p>
+portrait_url: /assets/image-albert-evans/albert-evans-face.png
 portrait_caption: >-
-  Photo by Manja Vitolic on Unsplash (this caption is optional, comment it out to disable).
+  Profile image migrated from orginal-albert-jin.github.io.
 
 education:
-- name: Massachusetts Institute of Technology
-  logo: /assets/images/badges/MIT_Social_circle.png
-  position: >- 
-    Department of Electrical Engineering and Computer Science <br/>
-    Ph.D. Student
-  date: Sep. 2024 - present
-- name: Peking University
-  logo: /assets/images/badges/PKU_red.png
-  position: B.S. in Computer Science
-  date: Sep. 2019 - Jul. 2021
+- name: Xi'an Jiaotong University
+  logo: /assets/image-albert-evans/icons/XJTU.png
+  position: >-
+    Academic Ph.D., Information and Communication Engineering <br/>
+    Intelligent Perception and Decision Control; Big Data and Foundation Models
+  date: 2022-09 - Present
+- name: Shanghai University
+  logo: /assets/image-albert-evans/icons/上海大学.png
+  position: M.S., Computer Engineering and Science
+  date: 2019-09 - 2021-03
+- name: Anhui University of Technology
+  logo: /assets/image-albert-evans/icons/AUHT.png
+  position: B.S., Computer Science and Technology
+  date: 2015-09 - 2019-06
 
-# experience:
-# - name: Peking University
-#   logo: /assets/images/badges/PKU_red.png
-#   position: Research Intern
-#   date: Sep. 2019 - Jul. 2021
+experience:
+- name: Huawei, Foundational LLM Department
+  logo: /assets/image-albert-evans/icons/华为.png
+  position: Research Intern, Foundational LLM Team
+  date: 2026-03 - 2026-09 (Until Now)
+- name: The Chinese University of Hong Kong, CSE
+  logo: /assets/image-albert-evans/icons/cuhk.JPG
+  position: >-
+    Honorary Research Assistant (<a href="https://misc-lab.cse.cuhk.edu.hk/" target="_blank">MISC Lab</a>, advised by IEEE Fellow
+    <a href="https://www.cse.cuhk.edu.hk/people/faculty/irwin-king/" target="_blank">Irwin King</a>)
+  date: 2025-09 - 2026-02
+- name: The University of Hong Kong, Department of EEE
+  logo: /assets/image-albert-evans/icons/HKU.png
+  position: >-
+    Visiting Scholar and Research Assistant (<a href="https://hongyangdu.github.io/nice/" target="_blank">NICE Lab</a>)
+  date: 2025-02 - 2025-09
+- name: Xi'an Jiaotong University
+  logo: /assets/image-albert-evans/icons/XJTU.png
+  position: Assistant Counselor, School of Information and Communication Engineering
+  date: 2024-02 - 2025-02
+- name: Xi'an Jiaotong University
+  logo: /assets/image-albert-evans/icons/XJTU.png
+  position: Assistant Manager, National Academy of Distinguished Engineers
+  date: 2024-02 - 2024-09
+- name: eBay Shanghai Branch (IaSS Team)
+  logo: /assets/image-albert-evans/icons/ebay.png
+  position: Full-stack Software Development Engineer Intern
+  date: 2021-01 - 2021-06
+- name: Shanghai Youhao Network Technology Co., Ltd
+  logo: /assets/image-albert-evans/icons/youhao.png
+  position: Unity3D and Python Software Development Engineer
+  date: 2022-05 - 2022-08
 
 awards:
-- name: Award Name 2
+- name: XJTU Academic Star (2025, top 10 among all graduate students)
+  date: 2025
+- name: National Scholarship for Ph.D. Students (2024, 2025)
+  date: 2024-2025
+- name: Huawei Scholarship (Ph.D.)
+  date: 2025
+- name: Best Paper Award, Information Processing & Management (1/302)
+  date: 2023
+- name: Best Paper Award, ACAIT 2024 (1/488)
   date: 2024
-- name: Award Name 1 
-  date: 2021
-- name: A quick brown fox jumps over the lazy dog and runs away award
-  date: 2021
+

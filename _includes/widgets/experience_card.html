@@ -1,3 +1,9 @@
+{%- if site.data.profile.gscholar contains 'scholar.google' -%}
+{%- assign gscholar_url = site.data.profile.gscholar -%}
+{%- else -%}
+{%- assign gscholar_url = 'https://scholar.google.com/citations?user=' | append: site.data.profile.gscholar -%}
+{%- endif -%}
+
 <div class="row mt-3">
     <div class="col">
         <div class="card border-0 shadow-sm bg-white">
@@ -66,6 +72,37 @@
                         </div>
                     </div>
                     {% endif %}
+
+                    <div class="col-lg-6">
+                        <div class="mx-2 my-1">
+                            <h6>Profile Highlights</h6>
+                            <ul class="list small pl-3 mb-1">
+                                <li>
+                                    Supervisors at Xi'an Jiaotong University:
+                                    <a href="https://gr.xjtu.edu.cn/web/biaozhao" target="_blank">Prof. Biao Zhao</a>
+                                    (<a href="https://faculty.xjtu.edu.cn/biaozhao/zh_CN/index.htm" target="_blank">faculty profile</a>);
+                                    Prof. Guizhong Liu
+                                    (<a href="https://faculty.xjtu.edu.cn/liugz/en/index.htm" target="_blank">faculty page</a>).
+                                </li>
+                                <li>
+                                    Google Scholar:
+                                    <a href="{{ gscholar_url }}" target="_blank" class="badge badge-pill badge-light border border-primary text-primary">Citations 767</a>
+                                    <a href="{{ gscholar_url }}" target="_blank" class="badge badge-pill badge-light border border-success text-success">h-index 14</a>
+                                    <a href="{{ gscholar_url }}" target="_blank" class="badge badge-pill badge-light border border-warning text-warning">h10-index 17</a>
+                                </li>
+                                <li>
+                                    Serving as Academic Editor for PLOS ONE (24-04 to 25-10).
+                                </li>
+                                <li>
+                                    <i class="fas fa-file-alt"></i>
+                                    CV:
+                                    <a target="_blank" href="{{ '/assets/files-albert-evans/Weiqiang%20Jin%20Resume.pdf' | relative_url }}">English Resume</a>
+                                    /
+                                    <a target="_blank" href="{{ '/assets/files-albert-evans/%E9%87%91%E4%BC%9F%E5%BC%BA%20%E7%AE%80%E5%8E%86.pdf' | relative_url }}">&#x4E2D;&#x6587;&#x7B80;&#x5386; (CN)</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
 
                 </div>
 

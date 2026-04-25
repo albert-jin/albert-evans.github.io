@@ -39,6 +39,18 @@
                         <a class="email-text" href="mailto:{{ site.data.profile.email | encode_email }}">
                             {{ site.data.profile.email | replace: "@", "(at)" }}
                         </a>
+                        {% if site.data.profile.phone %}<br/>{{ site.data.profile.phone }}{% endif %}
+                        {% if site.data.profile.website %}
+                        <br/>
+                        <a
+                            target="_blank"
+                            href="{{ site.data.profile.website }}"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="This legacy website stopped maintenance in February 2025. Please refer to this website for latest updates. &#x8BE5;&#x65E7;&#x7F51;&#x7AD9;&#x5DF2;&#x4E8E;2025&#x5E74;02&#x6708;&#x505C;&#x6B62;&#x7EF4;&#x62A4;&#xFF0C;&#x6700;&#x65B0;&#x4FE1;&#x606F;&#x8BF7;&#x53C2;&#x8003;&#x672C;&#x7F51;&#x7AD9;&#x3002;">
+                            Original Website
+                        </a>
+                        {% endif %}
                     </div>
                 </div>
 
@@ -61,6 +73,36 @@
                         </a>
                         {% endif %}
 
+                        {% if site.data.profile.arxiv %}
+                        <a class="px-1 no-break" target="_blank" href="{{ site.data.profile.arxiv }}">
+                            <i class="ai ai-arxiv"></i>
+                        </a>
+                        {% endif %}
+
+                        {% if site.data.profile.link3 %}
+                        <a class="px-1 no-break" target="_blank" href="{{ site.data.profile.link3 }}">
+                            <i class="fas fa-link"></i>
+                        </a>
+                        {% endif %}
+
+                        {% if site.data.profile.dblp %}
+                        <a class="px-1 no-break" target="_blank" href="{{ site.data.profile.dblp }}">
+                            <i class="ai ai-dblp"></i>
+                        </a>
+                        {% endif %}
+
+                        {% if site.data.profile.kaggle %}
+                        <a class="px-1 no-break" target="_blank" href="https://www.kaggle.com/{{ site.data.profile.kaggle }}">
+                            <i class="fab fa-kaggle"></i>
+                        </a>
+                        {% endif %}
+
+                        {% if site.data.profile.steam %}
+                        <a class="px-1 no-break" target="_blank" href="https://steamcommunity.com/id/{{ site.data.profile.steam }}">
+                            <i class="fab fa-steam"></i>
+                        </a>
+                        {% endif %}
+
                         {% if site.data.profile.wechat_qrcode %}
                         <a class="px-1 no-break" data-toggle="modal" data-target="#modal-wechat">
                             <i class="fab fa-weixin"></i>
@@ -68,7 +110,12 @@
                         {% endif %}
 
                         {% if site.data.profile.twitter %}
-                        <a class="px-1 no-break" target="_blank" href="https://twitter.com/{{ site.data.profile.twitter }}">
+                        {%- if site.data.profile.twitter contains 'http' -%}
+                        {%- assign twitter_url = site.data.profile.twitter -%}
+                        {%- else -%}
+                        {%- assign twitter_url = 'https://twitter.com/' | append: site.data.profile.twitter -%}
+                        {%- endif -%}
+                        <a class="px-1 no-break" target="_blank" href="{{ twitter_url }}">
                             <i class="fab fa-twitter"></i>
                         </a>
                         {% endif %}
@@ -84,6 +131,37 @@
                             <i class="fab fa-orcid"></i>
                         </a>
                         {% endif %}
+
+                        {% if site.data.profile.zhihu %}
+                        <a class="px-1 no-break" target="_blank" href="{{ site.data.profile.zhihu }}">
+                            <i class="fab fa-zhihu"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="row pt-2 small">
+                    <div class="col text-center">
+                        {% if site.data.profile.arxiv %}<a target="_blank" href="{{ site.data.profile.arxiv }}">arXiv</a> {% endif %}
+                        {% if site.data.profile.gscholar %}| <a target="_blank" href="{{ gscholar_url }}">Google Scholar</a> {% endif %}
+                        {% if site.data.profile.link3 %}| <a target="_blank" href="{{ site.data.profile.link3 }}">Link3</a> {% endif %}
+                        {% if site.data.profile.orcid %}| <a target="_blank" href="https://orcid.org/{{ site.data.profile.orcid }}">ORCID</a> {% endif %}
+                        {% if site.data.profile.dblp %}| <a target="_blank" href="{{ site.data.profile.dblp }}">DBLP</a> {% endif %}
+                        {% if site.data.profile.github %}| <a target="_blank" href="https://github.com/{{ site.data.profile.github }}">Github</a> {% endif %}
+                        {% if site.data.profile.kaggle %}| <a target="_blank" href="https://www.kaggle.com/{{ site.data.profile.kaggle }}">Kaggle</a> {% endif %}
+                        {% if site.data.profile.steam %}| <a target="_blank" href="https://steamcommunity.com/id/{{ site.data.profile.steam }}">Steam</a> {% endif %}
+                        {% if site.data.profile.twitter %}| <a target="_blank" href="{{ twitter_url }}">X (formerly Twitter)</a> {% endif %}
+                        {% if site.data.profile.zhihu %}| <a target="_blank" href="{{ site.data.profile.zhihu }}">Zhihu</a>{% endif %}
+                    </div>
+                </div>
+                <div class="row pt-3">
+                    <div class="col text-center">
+                        <div class="small text-muted mb-1">PLOS ONE Academic Editor Badge</div>
+                        <img
+                            src="{{ '/assets/image-albert-evans/PLOSEdBoardBadge_ONE.png' | relative_url }}"
+                            alt="PLOS ONE Editorial Board Badge"
+                            class="img-fluid rounded-sm shadow-sm"
+                            style="max-height: 64px;">
                     </div>
                 </div>
             </div>
