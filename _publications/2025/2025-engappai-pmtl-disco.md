@@ -6,7 +6,6 @@ pub: "Engineering Applications of Artificial Intelligence"
 pub_post: " | Published: "
 pub_date: "2025-03"
 pub_last: " <span class=\"badge badge-pill badge-publication badge-success\">CAS(3y): Q2</span>"
-abstract: "Abstract details omitted by request."
 authors:
   - Weiqiang Jin
   - Ningwei Wang
@@ -23,4 +22,5 @@ links:
 ---
 
 First author; JCR Q1.
+
 

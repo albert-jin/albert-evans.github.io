@@ -6,7 +6,6 @@ pub: "IEEE Transactions on Big Data"
 pub_post: " | Published: "
 pub_date: "2025-06"
 pub_last: " <span class=\"badge badge-pill badge-publication badge-success\">CAS(3y): Q2</span> <span class=\"badge badge-pill badge-publication badge-dark\">CCF: C</span>"
-abstract: "Abstract details omitted by request."
 authors:
   - Weiqiang Jin
   - Mengying Jiang
@@ -21,4 +20,5 @@ links:
 ---
 
 First author; JCR Q1.
+
 

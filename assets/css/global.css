@@ -188,3 +188,9 @@ div.lazy {
 .news-entry {
     display: flex;
 }
+
+/* Fallback visibility control when Bootstrap utility classes are unavailable */
+.news-entry.d-none,
+.news-entry[hidden] {
+    display: none !important;
+}

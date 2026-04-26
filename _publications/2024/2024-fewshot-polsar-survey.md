@@ -6,7 +6,6 @@ pub: "Remote Sensing"
 pub_post: " | Published: "
 pub_date: "2024-12-11"
 pub_last: " <span class=\"badge badge-pill badge-publication badge-success\">CAS(3y): Q2</span>"
-abstract: "Abstract details omitted by request."
 authors:
   - Ningwei Wang
   - Weiqiang Jin
@@ -19,4 +18,5 @@ links:
 ---
 
 Co-first author.
+
 

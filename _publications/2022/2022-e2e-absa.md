@@ -6,7 +6,6 @@ pub: "Electronics"
 pub_post: " | Published: "
 pub_date: "2022-06-07"
 pub_last: " <span class=\"badge badge-pill badge-publication badge-success\">CAS(3y): N/A</span>"
-abstract: "Abstract details omitted by request."
 authors:
   - Hengbing Ding
   - Shan Huang
@@ -19,4 +18,5 @@ links:
 ---
 
 SCI journal paper.
+
 

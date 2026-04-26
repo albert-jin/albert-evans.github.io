@@ -6,7 +6,6 @@ pub: "Knowledge-Based Systems"
 pub_post: " | Published: "
 pub_date: "2023-11"
 pub_last: " <span class=\"badge badge-pill badge-publication badge-success\">CAS(3y): Q1</span>"
-abstract: "Abstract details omitted by request."
 authors:
   - Biao Zhao
   - Weiqiang Jin
@@ -19,4 +18,5 @@ links:
 ---
 
 Co-first author.
+
 

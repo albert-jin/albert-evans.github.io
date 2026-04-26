@@ -43,11 +43,15 @@ $(function () {
     const newsCard = document.getElementById('news-card');
     const loadMoreBtn = document.getElementById('news-load-more');
     if (newsCard && loadMoreBtn) {
-        const step = parseInt(newsCard.getAttribute('data-news-step') || '30', 10);
+        const step = parseInt(newsCard.getAttribute('data-news-step') || '10', 10);
+        if (newsCard.querySelectorAll('.news-hidden.d-none').length === 0) {
+            loadMoreBtn.style.display = 'none';
+        }
         loadMoreBtn.addEventListener('click', function () {
             const hiddenEntries = Array.from(newsCard.querySelectorAll('.news-hidden.d-none'));
             hiddenEntries.slice(0, step).forEach((el) => {
                 el.classList.remove('d-none');
+                el.removeAttribute('hidden');
             });
 
             const remaining = newsCard.querySelectorAll('.news-hidden.d-none').length;

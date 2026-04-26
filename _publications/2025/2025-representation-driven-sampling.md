@@ -6,7 +6,6 @@ pub: "Neural Networks"
 pub_post: " | Published: "
 pub_date: "2025-12"
 pub_last: " <span class=\"badge badge-pill badge-publication badge-success\">CAS(3y): Q1</span>"
-abstract: "Abstract details omitted by request."
 authors:
   - Weiqiang Jin
   - Xingwu Tian
@@ -21,4 +20,5 @@ links:
 ---
 
 First author; JCR Q1 TOP.
+
 

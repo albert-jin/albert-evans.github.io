@@ -6,7 +6,6 @@ pub: "Information Processing and Management"
 pub_post: " | Published: "
 pub_date: "2023-05"
 pub_last: " <span class=\"badge badge-pill badge-publication badge-success\">CAS(3y): Q1</span> <span class=\"badge badge-pill badge-publication badge-dark\">CCF: B</span>"
-abstract: "Abstract details omitted by request."
 authors:
   - Weiqiang Jin
   - Biao Zhao
@@ -19,4 +18,5 @@ links:
 ---
 
 First author; Best Paper Award (2023).
+
 

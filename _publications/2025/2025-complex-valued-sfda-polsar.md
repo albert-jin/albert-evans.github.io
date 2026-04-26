@@ -6,7 +6,6 @@ pub: "IEEE Transactions on Geoscience and Remote Sensing"
 pub_post: " | Published: "
 pub_date: "2026"
 pub_last: " <span class=\"badge badge-pill badge-publication badge-success\">CAS(3y): Q1</span>"
-abstract: "Abstract details omitted by request."
 authors:
   - Ningwei Wang
   - Weiqiang Jin
@@ -19,4 +18,5 @@ links:
 ---
 
 Co-first author; JCR Q1 TOP.
+
 

@@ -5,9 +5,10 @@
 {% assign display_news = all_news | where_exp: "item", "item.exclude_from_home != true" %}
 {% assign sorted_news = display_news | sort: "date" | reverse %}
 {% assign news_count = sorted_news | size %}
-{% assign step = 30 %}
+{% assign initial_limit = include.limit | default: 25 %}
+{% assign load_step = site.data.display.homepage.news_load_step | default: 10 %}
 
-<div class="my-3 bg-white shadow-sm rounded-xl" id="news-card" data-news-step="{{ step }}">
+<div class="my-3 bg-white shadow-sm rounded-xl" id="news-card" data-news-step="{{ load_step }}">
     <h6 class="p-3 mb-0 border-bottom border-gray"><i class="fas fa-rss"></i> News</h6>
     <div class="px-3 pb-1 small">
         {% if news_count == 0 %}
@@ -19,7 +20,7 @@
         {% if raw_title contains '[' and raw_title contains '] ' %}
         {% assign has_prefix = true %}
         {% endif %}
-        <div class="my-1 d-flex news-entry {% if forloop.index0 >= step or item.force_hidden == true %}d-none news-hidden{% endif %}">
+        <div class="my-1 d-flex news-entry {% if forloop.index0 >= initial_limit or item.force_hidden == true %}d-none news-hidden{% endif %}" {% if forloop.index0 >= initial_limit or item.force_hidden == true %}hidden{% endif %}>
             {% if has_prefix %}
             {% assign title_parts = raw_title | split: '] ' %}
             {% assign title_prefix = title_parts[0] | append: ']' %}

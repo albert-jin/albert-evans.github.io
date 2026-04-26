@@ -54,8 +54,8 @@ education:
 - name: Xi'an Jiaotong University
   logo: /assets/image-albert-evans/icons/XJTU.png
   position: >-
-    Academic Ph.D., Information and Communication Engineering <br/>
-    Intelligent Perception and Decision Control; Big Data and Foundation Models
+    Academic Ph.D., Information and Communication Engineering. </br> Intelligent Perception and Decision Control; Big Data and Foundation Models
+#    <strong>Major</strong>:
   date: 2022-09 - Present
 - name: Shanghai University
   logo: /assets/image-albert-evans/icons/上海大学.png
@@ -73,6 +73,8 @@ experience:
   date: 2026-03 - 2026-09 (Until Now)
 - name: The Chinese University of Hong Kong, CSE
   logo: /assets/image-albert-evans/icons/cuhk.JPG
+  logo_width: 42
+  logo_offset_left: 10
   position: >-
     Honorary Research Assistant (<a href="https://misc-lab.cse.cuhk.edu.hk/" target="_blank">MISC Lab</a>, advised by IEEE Fellow
     <a href="https://www.cse.cuhk.edu.hk/people/faculty/irwin-king/" target="_blank">Irwin King</a>)
@@ -80,7 +82,7 @@ experience:
 - name: The University of Hong Kong, Department of EEE
   logo: /assets/image-albert-evans/icons/HKU.png
   position: >-
-    Visiting Scholar and Research Assistant (<a href="https://hongyangdu.github.io/nice/" target="_blank">NICE Lab</a>)
+    Visiting Scholar and Research Assistant (<a href="https://hongyangdu.github.io/nice/" target="_blank">NICE Lab</a> by Prof <a href="https://hongyangdu.github.io/" target="_blank">Hongyang Du</a>)
   date: 2025-02 - 2025-09
 - name: Xi'an Jiaotong University
   logo: /assets/image-albert-evans/icons/XJTU.png
@@ -92,12 +94,14 @@ experience:
   date: 2024-02 - 2024-09
 - name: eBay Shanghai Branch (IaSS Team)
   logo: /assets/image-albert-evans/icons/ebay.png
-  logo_width: 32
+  logo_width: 48
+  logo_offset_left: 14
   position: Full-stack Software Development Engineer Intern
   date: 2021-01 - 2021-06
 - name: Shanghai Youhao Network Technology Co., Ltd
   logo: /assets/image-albert-evans/icons/youhao.png
-  logo_width: 32
+  logo_width: 48
+  logo_offset_left: 14
   position: Unity3D and Python Software Development Engineer
   date: 2022-05 - 2022-08
 

@@ -6,7 +6,6 @@ pub: "ACM TALLIP"
 pub_post: " | Published: "
 pub_date: "2023-11-30"
 pub_last: " <span class=\"badge badge-pill badge-publication badge-success\">CAS(3y): N/A</span>"
-abstract: "Abstract details omitted by request."
 authors:
   - Weiqiang Jin
   - Biao Zhao
@@ -19,4 +18,5 @@ links:
 ---
 
 Independent first author.
+
 

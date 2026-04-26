@@ -6,7 +6,6 @@ pub: "DASFAA 2023"
 pub_post: " | Published: "
 pub_date: "2023"
 pub_last: " <span class=\"badge badge-pill badge-publication badge-success\">CAS(3y): N/A</span> <span class=\"badge badge-pill badge-publication badge-dark\">CCF: B</span>"
-abstract: "Abstract details omitted by request."
 authors:
   - Weiqiang Jin
   - Biao Zhao
@@ -17,4 +16,5 @@ links:
 ---
 
 First author; CCF-B recommended conference paper.
+
 

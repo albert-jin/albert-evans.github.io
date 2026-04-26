@@ -6,7 +6,6 @@ pub: "Journal of King Saud University Computer and Information Sciences"
 pub_post: " | Published: "
 pub_date: "2025-05"
 pub_last: " <span class=\"badge badge-pill badge-publication badge-success\">CAS(3y): Q2</span>"
-abstract: "Abstract details omitted by request."
 authors:
   - Weiqiang Jin
   - Dafu Su
@@ -20,4 +19,5 @@ links:
 ---
 
 First author; JCR Q1.
+
 

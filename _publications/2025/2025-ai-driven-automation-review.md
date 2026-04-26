@@ -6,7 +6,6 @@ pub: "CMC: Computers, Materials and Continua"
 pub_post: " | Published: "
 pub_date: "2025"
 pub_last: " <span class=\"badge badge-pill badge-publication badge-success\">CAS(3y): Q3</span>"
-abstract: "Abstract details omitted by request."
 authors:
   - Weiqiang Jin
   - Ningwei Wang
@@ -20,4 +19,5 @@ links:
 ---
 
 First author review article.
+
 

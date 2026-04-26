@@ -6,7 +6,6 @@ pub: "Expert Systems with Applications"
 pub_post: " | Published: "
 pub_date: "2024-03"
 pub_last: " <span class=\"badge badge-pill badge-publication badge-success\">CAS(3y): Q1</span>"
-abstract: "Abstract details omitted by request."
 authors:
   - Weiqiang Jin
   - Biao Zhao
@@ -19,4 +18,5 @@ links:
 ---
 
 First author; JCR Q1.
+
 

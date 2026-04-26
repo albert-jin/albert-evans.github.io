@@ -6,7 +6,6 @@ pub: "ACAIT 2024"
 pub_post: " | Published: "
 pub_date: "2024"
 pub_last: " <span class=\"badge badge-pill badge-publication badge-success\">CAS(3y): N/A</span>"
-abstract: "Abstract details omitted by request."
 authors:
   - Biao Zhao
   - Weiqiang Jin
@@ -16,4 +15,5 @@ links:
 ---
 
 Co-first and corresponding author; Best Paper Award.
+
 

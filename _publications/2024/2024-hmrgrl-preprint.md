@@ -6,7 +6,6 @@ pub: "IEEE Transactions on Big Data (Early/Preprint Version)"
 pub_post: " | Published: "
 pub_date: "2024-03"
 pub_last: " <span class=\"badge badge-pill badge-publication badge-success\">CAS(3y): Q2</span> <span class=\"badge badge-pill badge-publication badge-dark\">CCF: C</span>"
-abstract: "Abstract details omitted by request."
 authors:
   - Mengying Jiang
   - Guizhong Liu
@@ -19,3 +18,4 @@ links:
 ---
 
 Third author; kept as 2024 early/preprint record in addition to the later formal publication version.
+

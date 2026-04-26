@@ -2,6 +2,7 @@ homepage:
   show_experience: false
   show_news: false
   show_selected_publications: false
-  num_news: 30
+  num_news: 25
+  news_load_step: 10
 
 footer_text: ""

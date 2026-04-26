@@ -6,7 +6,6 @@ pub: "WISE 2024"
 pub_post: " | Published: "
 pub_date: "2025"
 pub_last: " <span class=\"badge badge-pill badge-publication badge-success\">CAS(3y): N/A</span> <span class=\"badge badge-pill badge-publication badge-dark\">CCF: C</span>"
-abstract: "Abstract details omitted by request."
 authors:
   - Weiqiang Jin
   - Ningwei Wang
@@ -23,4 +22,5 @@ links:
 ---
 
 First author.
+
 
