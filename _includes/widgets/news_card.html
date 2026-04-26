@@ -2,7 +2,8 @@
 {% if all_news == nil %}
 {% assign all_news = '' | split: '' %}
 {% endif %}
-{% assign sorted_news = all_news | sort: "date" | reverse %}
+{% assign display_news = all_news | where_exp: "item", "item.exclude_from_home != true" %}
+{% assign sorted_news = display_news | sort: "date" | reverse %}
 {% assign news_count = sorted_news | size %}
 {% assign step = 30 %}
 
@@ -13,13 +14,25 @@
         <div class="py-3 text-muted">No recent news updates yet.</div>
         {% else %}
         {% for item in sorted_news %}
-        <div class="my-1 news-entry {% if forloop.index0 >= step %}d-none news-hidden{% endif %}">
-            <div>{{ item.title }}</div>
-            <div class="ml-auto mt-auto text-muted no-break"><i>{{ item.date | date: "%b %d" }}</i></div>
+        {% assign raw_title = item.title | default: '' %}
+        {% assign has_prefix = false %}
+        {% if raw_title contains '[' and raw_title contains '] ' %}
+        {% assign has_prefix = true %}
+        {% endif %}
+        <div class="my-1 d-flex news-entry {% if forloop.index0 >= step or item.force_hidden == true %}d-none news-hidden{% endif %}">
+            {% if has_prefix %}
+            {% assign title_parts = raw_title | split: '] ' %}
+            {% assign title_prefix = title_parts[0] | append: ']' %}
+            {% assign title_suffix = raw_title | remove_first: title_prefix | strip %}
+            <div><strong>{{ title_prefix }}</strong> {{ title_suffix }}</div>
+            {% else %}
+            <div>{{ raw_title }}</div>
+            {% endif %}
+            <div class="ml-auto mt-auto text-muted no-break"><i>{% if item.display_date %}{{ item.display_date }}{% else %}{{ item.date | date: "%b %d" }}{% endif %}</i></div>
         </div>
         {% endfor %}
 
-        {% if news_count > step %}
+        {% if news_count > 0 %}
         <div class="text-center mt-3 mb-2">
             <button class="btn btn-sm btn-outline-dark" id="news-load-more" type="button">Know more &gt;&gt;</button>
         </div>

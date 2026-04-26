@@ -28,23 +28,21 @@ orcid: 0000-0002-6656-6061
 short_bio_text_justify: false
 short_bio: >-
   <p>
-    Greetings! I am Weiqiang Jin (Albert Jin), Ph.D. candidate at Xi'an Jiaotong University (since 2022-09). Research focus:
+    Greetings! I am <strong>Weiqiang Jin (Albert Jin)</strong>, Ph.D. candidate at <a href="https://eie.xjtu.edu.cn/">Faculty of Electronic and Information Engineering</a> of <a href="https://www.xjtu.edu.cn/xynr.jsp?wbtreeid=1634&wbxjtucollegeid=207">Xi'an Jiaotong University</a> (since 2022-09). Research focus:
     LLM reasoning and tuning, natural language processing, multi-agent reinforcement learning, intelligent retrieval,
     and data-centric AI applications. At this stage, my core research emphasis is on medical foundation models, AIVC virtual cells,
-    and TTS optimization for large-model MoE routing as well as LLM-TTS inference.
+      and TTS optimization for large-model MoE routing as well as LLM-TTS inference.
   </p>
   <p>
-    He was a visiting research assistant at The University of Hong Kong from February to September 2025
-    and then served as an Honorary Research Assistant at The Chinese University of Hong Kong from September 2025 to February 2026,
-    under the supervision of Professor Irwin King.
+    I was a visiting research assistant at <a href="https://hongyangdu.github.io/">NICE lab</a> of <a href="https://www.hku.hk/">The University of Hong Kong</a> from February to September 2025
+    and then served as an Honorary Research Assistant at <a href="https://www.cuhk.edu.hk/english/index.html">The Chinese University of Hong Kong</a> from September 2025 to February 2026,
+      under the supervision of <a href="https://www.cse.cuhk.edu.hk/irwin.king/">Professor Irwin King</a>. I'm currently a research intern at Huawei's <a href="https://www.sohu.com/a/964143772_661663">Foundational LLM Department</a> in Shenzhen,
+      where I focus on practical LLM system development, model reasoning/tuning workflows, and industry-oriented deployment.
   </p>
+  <!--<a href=""></a>-->
   <p>
-    He is currently a research intern at Huawei's Foundational LLM Department in Shenzhen (Foundational LLM Team),
-    where he focuses on practical LLM system development, model reasoning/tuning workflows, and industry-oriented deployment.
-  </p>
-  <p>
-    He plans to pursue a 2-3 year postdoctoral position at Imperial College London in the future.
-    If <span data-toggle="tooltip" data-placement="top" title="&#x4E2D;&#x6587;&#x63D0;&#x793A;&#xFF1A;&#x5982;&#x679C;&#x60A8;&#x672C;&#x4EBA;&#x3001;&#x6216;&#x60A8;&#x6240;&#x5728;&#x7684;&#x5927;&#x5B66;&#x6216;&#x7814;&#x7A76;&#x673A;&#x6784;&#x613F;&#x610F;&#x63D0;&#x4F9B;&#x652F;&#x6301;&#xFF0C;&#x6B22;&#x8FCE;&#x4E0E;&#x6211;&#x8054;&#x7CFB;&#x3002;">you, your university, or your research institution</span>
+    I plan to pursue a 2-3 year postdoctoral position at <a href="https://www.imperial.ac.uk/">Imperial College London</a> in the future.
+    If You, Your university, or Your research institution</span>
     are willing to support his application for <strong><a target="_blank" href="https://www.nsfc.gov.cn/p1/3381/2824/121517.html">Overseas Outstanding Young Scientist programs</a></strong>,
     please contact: <a href="mailto:weiqiangjin@stu.xjtu.edu.cn">weiqiangjin@stu.xjtu.edu.cn</a>.
   </p>
@@ -69,7 +67,7 @@ education:
   date: 2015-09 - 2019-06
 
 experience:
-- name: Huawei, Foundational LLM Department
+- name: '<a target="_blank" href="https://www.eet-china.com/mp/a458704.html">Huawei</a>, Foundational LLM Department'
   logo: /assets/image-albert-evans/icons/华为.png
   position: Research Intern, Foundational LLM Team
   date: 2026-03 - 2026-09 (Until Now)
@@ -94,10 +92,12 @@ experience:
   date: 2024-02 - 2024-09
 - name: eBay Shanghai Branch (IaSS Team)
   logo: /assets/image-albert-evans/icons/ebay.png
+  logo_width: 32
   position: Full-stack Software Development Engineer Intern
   date: 2021-01 - 2021-06
 - name: Shanghai Youhao Network Technology Co., Ltd
   logo: /assets/image-albert-evans/icons/youhao.png
+  logo_width: 32
   position: Unity3D and Python Software Development Engineer
   date: 2022-05 - 2022-08
 
@@ -112,4 +112,3 @@ awards:
   date: 2023
 - name: Best Paper Award, ACAIT 2024 (1/488)
   date: 2024
-

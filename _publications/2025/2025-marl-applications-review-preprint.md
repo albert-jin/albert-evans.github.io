@@ -1,7 +1,8 @@
 ---
-title: "A Review on Multi-Agent Cooperative Decision-Making Applications: Scenarios, Approaches, Challenges and Perspectives"
+title: "A Comprehensive Survey on Multi-Agent Cooperative Decision-Making: Scenarios, Approaches, Challenges and Perspectives"
 date: "2025-08-02 00:00:00 +0800"
 selected: false
+hide_mobile: true
 pub: "Journal of Industrial Information Integration (Preprint Stage)"
 pub_post: " | Published: "
 pub_date: "2025"

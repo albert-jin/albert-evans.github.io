@@ -15,8 +15,9 @@
                             <h6>Education</h6>
                             <ul class="list-unstyled mb-1">
                                 {% for item in site.data.profile.education %}
+                                {% assign logo_width = item.logo_width | default: 28 %}
                                 <li class="media mb-1">
-                                    <img src="{{ item.logo | relative_url }}" alt="{{ item.name }}" style="width: 18px;" class="mr-1 mt-1">
+                                    <img src="{{ item.logo | relative_url }}" alt="{{ item.name }}" style="width: {{ logo_width }}px;" class="mr-1 mt-1">
                                     <div class="media-body">
                                         <div>{{ item.name }}</div>
                                         <div class="small">{{ item.dept }}</div>
@@ -38,8 +39,9 @@
                             <h6>Experience</h6>
                             <ul class="list-unstyled mb-1">
                                 {% for item in site.data.profile.experience %}
+                                {% assign logo_width = item.logo_width | default: 28 %}
                                 <li class="media mb-1">
-                                    <img src="{{ item.logo | relative_url }}" alt="{{ item.name }}" style="width: 18px;" class="mr-1 mt-1">
+                                    <img src="{{ item.logo | relative_url }}" alt="{{ item.name | strip_html }}" style="width: {{ logo_width }}px;" class="mr-1 mt-1">
                                     <div class="media-body">
                                         <div>{{ item.name }}</div>
                                         <div class="small">{{ item.dept }}</div>
@@ -91,7 +93,7 @@
                                     <a href="{{ gscholar_url }}" target="_blank" class="badge badge-pill badge-light border border-warning text-warning">h10-index 17</a>
                                 </li>
                                 <li>
-                                    Serving as Academic Editor for PLOS ONE (24-04 to 25-10).
+                                    Serving as Academic Editor for <a target="_blank" href="https://journals.plos.org/plosone/">PLOS ONE</a> (24-04 to 25-10).
                                 </li>
                                 <li>
                                     <i class="fas fa-file-alt"></i>
