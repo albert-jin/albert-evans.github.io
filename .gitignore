@@ -6,7 +6,7 @@
 vendor/
 Gemfile.lock
 _site/
-
+.idea/
 .DS_Store
 .gitignore
 .github/
