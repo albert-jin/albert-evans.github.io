@@ -11,3 +11,4 @@ _site/
 .gitignore
 .github/
 CLI-cmd.md
+windows-content-uploader/

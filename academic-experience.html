@@ -12,12 +12,14 @@ navbar_title: Academic Experience
             <div class="small text-muted">2022-09 - Present</div>
             <div>Academic Ph.D. in Information and Communication Engineering <span class="text-muted" style="font-size: 0.92em;">（信息与通信工程学术型博士）</span></div>
             <div>Track: Intelligent Perception and Decision Control / Big Data and Foundation Model Applications <span class="text-muted" style="font-size: 0.92em;">（方向：智能感知与决策控制 / 大数据与基础大模型应用）</span></div>
-            <div class="small mt-1">
-                Supervisor (Current Primary): <a target="_blank" href="https://gr.xjtu.edu.cn/web/biaozhao">Prof. Biao Zhao</a>
-                (<a target="_blank" href="https://faculty.xjtu.edu.cn/biaozhao/zh_CN/index.htm">faculty page</a>)
-            </div>
-            <div class="small">
-                Supervisor (Second): <a target="_blank" href="https://gr.xjtu.edu.cn/web/liugz">Prof. Guizhong Liu</a> (<a target="_blank" href="https://faculty.xjtu.edu.cn/liugz/en/index.htm">faculty page</a>)
+            <div id="xjtu-supervisors-academic" style="display: none;">
+                <div class="small mt-1">
+                    Supervisor (Current Primary): <a target="_blank" href="https://gr.xjtu.edu.cn/web/biaozhao">Prof. Biao Zhao</a>
+                    (<a target="_blank" href="https://faculty.xjtu.edu.cn/biaozhao/zh_CN/index.htm">faculty page</a>)
+                </div>
+                <div class="small">
+                    Supervisor (Second): <a target="_blank" href="https://gr.xjtu.edu.cn/web/liugz">Prof. Guizhong Liu</a> (<a target="_blank" href="https://faculty.xjtu.edu.cn/liugz/en/index.htm">faculty page</a>)
+                </div>
             </div>
             <div class="small mt-1">
                 Doctoral research topics: LLM reasoning and tuning, NLP and applications, multi-agent RL decision coordination and control optimization, intelligent retrieval and data processing.
@@ -112,3 +114,23 @@ navbar_title: Academic Experience
     </div>
 </div>
 
+<script>
+    (function () {
+        function toggleXjtuSupervisorAcademic() {
+            var cutoff = new Date(2026, 6, 1);
+            var today = new Date();
+            today.setHours(0, 0, 0, 0);
+            var show = today > cutoff;
+            var el = document.getElementById("xjtu-supervisors-academic");
+            if (el) {
+                el.style.display = show ? "" : "none";
+            }
+        }
+
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", toggleXjtuSupervisorAcademic);
+        } else {
+            toggleXjtuSupervisorAcademic();
+        }
+    })();
+</script>
