@@ -109,6 +109,36 @@ h1, h2, h3, h4, h5, h6,
     opacity: 0.95;
 }
 
+.side-rain-secret-trigger {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    margin-left: 0.22rem;
+    margin-right: 0.55rem;
+    flex: 0 0 auto;
+    align-self: center;
+    border: 1px solid #343a40;
+    padding: 0;
+    border-radius: 999px;
+    background: #343a40;
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 6;
+    transition: background-color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.side-rain-secret-trigger:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.side-rain-secret-trigger:active,
+.side-rain-secret-trigger.is-switching {
+    background: #4c9de0;
+    border-color: #7ec8ff;
+    box-shadow: 0 0 0 0.14rem rgba(126, 200, 255, 0.18);
+}
+
 .nav-lang-select {
     width: 84px;
     min-width: 84px;
@@ -193,4 +223,313 @@ div.lazy {
 .news-entry.d-none,
 .news-entry[hidden] {
     display: none !important;
+}
+
+body.side-rain-enabled {
+    position: relative;
+}
+
+body.side-rain-enabled footer,
+body.side-rain-enabled .container,
+body.side-rain-enabled .container-sm,
+body.side-rain-enabled .container-md,
+body.side-rain-enabled .container-lg,
+body.side-rain-enabled .container-xl {
+    position: relative;
+    z-index: 2;
+}
+
+.side-rain-host {
+    position: fixed;
+    top: 80px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.code-rain-sidebar {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    pointer-events: auto;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.code-rain-sidebar::before,
+.code-rain-sidebar::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.side-rain-host[data-background-flag="1"] .code-rain-sidebar {
+    background:
+        radial-gradient(circle at 50% 16%, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0) 72%),
+        linear-gradient(180deg, rgba(15, 28, 56, 0.2), rgba(6, 14, 36, 0.08));
+}
+
+.side-rain-host[data-background-flag="1"] .code-rain-sidebar::before {
+    inset: -38%;
+    background: conic-gradient(
+        from 0deg,
+        rgba(255, 64, 123, 0.52),
+        rgba(255, 152, 56, 0.5),
+        rgba(255, 223, 86, 0.48),
+        rgba(82, 255, 170, 0.5),
+        rgba(92, 182, 255, 0.5),
+        rgba(140, 109, 255, 0.48),
+        rgba(255, 64, 123, 0.52)
+    );
+    filter: blur(34px) saturate(128%);
+    animation: side-rain-rainbow-spin 13s linear infinite;
+}
+
+.side-rain-host[data-background-flag="1"] .code-rain-sidebar::after {
+    inset: -18%;
+    background:
+        radial-gradient(circle at 12% 32%, rgba(255, 101, 168, 0.34), rgba(255, 101, 168, 0) 36%),
+        radial-gradient(circle at 78% 20%, rgba(100, 193, 255, 0.36), rgba(100, 193, 255, 0) 40%),
+        radial-gradient(circle at 56% 82%, rgba(89, 255, 182, 0.3), rgba(89, 255, 182, 0) 44%),
+        radial-gradient(circle at 24% 74%, rgba(255, 197, 96, 0.24), rgba(255, 197, 96, 0) 40%);
+    filter: blur(26px) saturate(140%);
+    animation: side-rain-aurora-shift 9s ease-in-out infinite alternate;
+}
+
+.side-rain-host[data-background-flag="2"] .code-rain-sidebar {
+    background:
+        linear-gradient(
+            180deg,
+            rgba(125, 125, 123, 0.94) 0%,
+            rgba(116, 116, 114, 0.944) 6.25%,
+            rgba(106, 106, 104, 0.948) 12.5%,
+            rgba(94, 94, 92, 0.952) 18.75%,
+            rgba(82, 82, 80, 0.956) 25%,
+            rgba(70, 70, 68, 0.96) 31.25%,
+            rgba(58, 58, 56, 0.964) 37.5%,
+            rgba(46, 46, 44, 0.968) 43.75%,
+            rgba(35, 35, 35, 0.972) 47%,
+            rgba(20, 20, 20, 0.976) 49%,
+            rgba(0, 0, 0, 0.98) 50%,
+            rgba(1, 1, 1, 0.98) 51%,
+            rgba(20, 20, 20, 0.976) 53%,
+            rgba(35, 35, 35, 0.972) 56.25%,
+            rgba(46, 46, 44, 0.968) 62.5%,
+            rgba(58, 58, 56, 0.964) 68.75%,
+            rgba(70, 70, 68, 0.96) 75%,
+            rgba(82, 82, 80, 0.956) 81.25%,
+            rgba(94, 94, 92, 0.952) 87.5%,
+            rgba(106, 106, 104, 0.948) 93.75%,
+            rgba(125, 125, 123, 0.94) 100%
+        );
+}
+
+.side-rain-host[data-background-flag="2"] .code-rain-sidebar::before {
+    inset: 0;
+    background:
+        linear-gradient(
+            180deg,
+            rgba(244, 244, 246, 0.12) 0%,
+            rgba(232, 232, 236, 0.112) 6.25%,
+            rgba(218, 218, 222, 0.104) 12.5%,
+            rgba(202, 202, 206, 0.095) 18.75%,
+            rgba(184, 184, 188, 0.086) 25%,
+            rgba(166, 166, 170, 0.074) 31.25%,
+            rgba(146, 146, 150, 0.062) 37.5%,
+            rgba(122, 122, 126, 0.05) 43.75%,
+            rgba(94, 94, 98, 0.036) 47%,
+            rgba(52, 52, 54, 0.018) 49%,
+            rgba(0, 0, 0, 0) 50%,
+            rgba(0, 0, 0, 0) 51%,
+            rgba(52, 52, 54, 0.018) 53%,
+            rgba(94, 94, 98, 0.036) 56.25%,
+            rgba(122, 122, 126, 0.05) 62.5%,
+            rgba(146, 146, 150, 0.062) 68.75%,
+            rgba(166, 166, 170, 0.074) 75%,
+            rgba(184, 184, 188, 0.086) 81.25%,
+            rgba(202, 202, 206, 0.095) 87.5%,
+            rgba(218, 218, 222, 0.104) 93.75%,
+            rgba(244, 244, 246, 0.12) 100%
+        ),
+        repeating-linear-gradient(
+            180deg,
+            rgba(226, 226, 228, 0.045) 0,
+            rgba(226, 226, 228, 0.045) 1px,
+            rgba(104, 104, 108, 0) 1px,
+            rgba(104, 104, 108, 0) 12px
+        );
+    opacity: 0.82;
+    animation: side-rain-noir-scan 16s ease-in-out infinite;
+}
+
+.side-rain-host[data-background-flag="2"] .code-rain-sidebar::after {
+    inset: -14%;
+    background:
+        radial-gradient(circle at 50% 0%, rgba(236, 236, 238, 0.12), rgba(236, 236, 238, 0) 32%),
+        radial-gradient(circle at 50% 100%, rgba(236, 236, 238, 0.12), rgba(236, 236, 238, 0) 32%),
+        linear-gradient(
+            180deg,
+            rgba(214, 214, 218, 0.11) 0%,
+            rgba(196, 196, 200, 0.104) 6.25%,
+            rgba(176, 176, 180, 0.098) 12.5%,
+            rgba(156, 156, 160, 0.092) 18.75%,
+            rgba(138, 138, 142, 0.084) 25%,
+            rgba(118, 118, 122, 0.074) 31.25%,
+            rgba(96, 96, 100, 0.064) 37.5%,
+            rgba(72, 72, 76, 0.052) 43.75%,
+            rgba(42, 42, 44, 0.03) 47%,
+            rgba(16, 16, 16, 0.008) 49%,
+            rgba(0, 0, 0, 0) 50%,
+            rgba(0, 0, 0, 0) 51%,
+            rgba(16, 16, 16, 0.008) 53%,
+            rgba(42, 42, 44, 0.03) 56.25%,
+            rgba(72, 72, 76, 0.052) 62.5%,
+            rgba(96, 96, 100, 0.064) 68.75%,
+            rgba(118, 118, 122, 0.074) 75%,
+            rgba(138, 138, 142, 0.084) 81.25%,
+            rgba(156, 156, 160, 0.092) 87.5%,
+            rgba(176, 176, 180, 0.098) 93.75%,
+            rgba(214, 214, 218, 0.11) 100%
+        );
+    filter: blur(18px);
+    opacity: 0.64;
+    animation: side-rain-noir-pulse 18s ease-in-out infinite;
+}
+
+.side-rain-host[data-background-flag="3"] .code-rain-sidebar {
+    background: rgb(0, 0, 0);
+}
+
+.side-rain-host[data-background-flag="3"] .code-rain-sidebar::before,
+.side-rain-host[data-background-flag="3"] .code-rain-sidebar::after {
+    inset: 0;
+    background: none;
+    animation: none;
+    opacity: 0;
+}
+
+.side-rain-host[data-background-flag="4"] .code-rain-sidebar {
+    background: rgb(255, 255, 255);
+}
+
+.side-rain-host[data-background-flag="4"] .code-rain-sidebar::before,
+.side-rain-host[data-background-flag="4"] .code-rain-sidebar::after {
+    inset: 0;
+    background: none;
+    animation: none;
+    opacity: 0;
+}
+
+.code-rain-left {
+    border-right: 1px solid rgba(112, 170, 255, 0.24);
+    box-shadow: inset -24px 0 42px -30px rgba(63, 146, 255, 0.55);
+}
+
+.code-rain-right {
+    border-left: 1px solid rgba(112, 170, 255, 0.24);
+    box-shadow: inset 24px 0 42px -30px rgba(63, 146, 255, 0.55);
+}
+
+.code-rain-canvas,
+.code-rain-trail {
+    position: absolute;
+    inset: 0;
+    display: block;
+}
+
+.code-rain-canvas {
+    z-index: 2;
+}
+
+.code-rain-trail {
+    z-index: 3;
+}
+
+@keyframes side-rain-rainbow-spin {
+    0% {
+        transform: rotate(0deg) scale(1);
+        filter: blur(34px) saturate(128%) hue-rotate(0deg);
+    }
+    50% {
+        transform: rotate(180deg) scale(1.06);
+        filter: blur(34px) saturate(140%) hue-rotate(130deg);
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
+        filter: blur(34px) saturate(128%) hue-rotate(360deg);
+    }
+}
+
+@keyframes side-rain-aurora-shift {
+    0% {
+        transform: translate3d(-5%, -3%, 0) scale(1);
+        opacity: 0.62;
+    }
+    50% {
+        transform: translate3d(4%, 5%, 0) scale(1.08);
+        opacity: 0.78;
+    }
+    100% {
+        transform: translate3d(-3%, 4%, 0) scale(1.02);
+        opacity: 0.66;
+    }
+}
+
+@keyframes side-rain-noir-scan {
+    0% {
+        transform: translate3d(0, -8%, 0);
+        opacity: 0.34;
+    }
+    25% {
+        transform: translate3d(0, -2%, 0);
+        opacity: 0.46;
+    }
+    50% {
+        transform: translate3d(0, 6%, 0);
+        opacity: 0.54;
+    }
+    75% {
+        transform: translate3d(0, -2%, 0);
+        opacity: 0.46;
+    }
+    100% {
+        transform: translate3d(0, -8%, 0);
+        opacity: 0.34;
+    }
+}
+
+@keyframes side-rain-noir-pulse {
+    0% {
+        transform: translate3d(0, -4%, 0) scaleY(0.98);
+        opacity: 0.18;
+    }
+    25% {
+        transform: translate3d(0, -1%, 0) scaleY(1.01);
+        opacity: 0.28;
+    }
+    50% {
+        transform: translate3d(0, 4%, 0) scaleY(1.04);
+        opacity: 0.38;
+    }
+    75% {
+        transform: translate3d(0, -1%, 0) scaleY(1.01);
+        opacity: 0.28;
+    }
+    100% {
+        transform: translate3d(0, -4%, 0) scaleY(0.98);
+        opacity: 0.18;
+    }
+}
+
+@media (max-width: 1099.98px), (hover: none), (pointer: coarse) {
+    .side-rain-host {
+        display: none !important;
+    }
+    .side-rain-secret-trigger {
+        display: none !important;
+    }
 }
