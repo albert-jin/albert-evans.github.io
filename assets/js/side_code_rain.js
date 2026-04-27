@@ -24,6 +24,9 @@
     const SWITCHING_CLASS = "is-switching";
     const SWITCHING_CLASS_DURATION_MS = 220;
     const RANDOM_POOL_SIZE = 10000;
+    const STATE_STORAGE_KEY = "__sideCodeRainStateV1";
+    const STATE_MAX_AGE_MS = 3 * 60 * 1000;
+    const MAX_STORED_PARTICLES = 520;
 
     const CHARSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz{}[]()<>/\\|?*&^%$#@!+-=~`;:.,_¥￥€£¢§¶^°±×÷≠≈≤≥√∑∏∆∞∫∂µπ";
     const COLOR_PALETTE = [
@@ -82,6 +85,53 @@
 
     function getSidebarBackgroundFlag() {
         return currentBackgroundFlag;
+    }
+
+    function toFiniteNumber(value, fallback) {
+        const parsed = Number(value);
+        return Number.isFinite(parsed) ? parsed : fallback;
+    }
+
+    function readPersistedState() {
+        try {
+            const raw = window.sessionStorage.getItem(STATE_STORAGE_KEY);
+            if (!raw) {
+                return null;
+            }
+            const parsed = JSON.parse(raw);
+            if (!parsed || typeof parsed !== "object") {
+                return null;
+            }
+            const ageMs = Date.now() - toFiniteNumber(parsed.savedAt, 0);
+            if (ageMs < 0 || ageMs > STATE_MAX_AGE_MS) {
+                return null;
+            }
+            return parsed;
+        } catch (_error) {
+            return null;
+        }
+    }
+
+    function writePersistedState(payload) {
+        try {
+            window.sessionStorage.setItem(STATE_STORAGE_KEY, JSON.stringify(payload));
+        } catch (_error) {
+            // Ignore storage quota and privacy mode errors.
+        }
+    }
+
+    function clearPersistedState() {
+        try {
+            window.sessionStorage.removeItem(STATE_STORAGE_KEY);
+        } catch (_error) {
+            // Ignore storage access errors.
+        }
+    }
+
+    function consumePersistedState() {
+        const persisted = readPersistedState();
+        clearPersistedState();
+        return persisted;
     }
 
     class SidebarCodeRain {
@@ -156,10 +206,22 @@
             }
 
             const rect = this.root.getBoundingClientRect();
-            this.width = Math.max(0, Math.floor(rect.width));
-            this.height = Math.max(0, Math.floor(rect.height));
-            this.dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
+            const nextWidth = Math.max(0, Math.floor(rect.width));
+            const nextHeight = Math.max(0, Math.floor(rect.height));
+            const nextDpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
+            const sizeChanged = nextWidth !== this.width || nextHeight !== this.height || nextDpr !== this.dpr;
+            const prevWidth = this.width;
+            const prevHeight = this.height;
+            const prevWorldScale = this.worldScale || 1;
+
+            this.width = nextWidth;
+            this.height = nextHeight;
+            this.dpr = nextDpr;
             this.worldScale = this.height / ORIGINAL_WORLD_HEIGHT;
+
+            if (!sizeChanged) {
+                return;
+            }
 
             const canvases = [this.rainCanvas, this.trailCanvas];
             for (const canvas of canvases) {
@@ -171,7 +233,47 @@
 
             this.rainCtx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
             this.trailCtx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
-            this.rebuildParticles();
+            if (!prevWidth || !prevHeight || !this.particles.length) {
+                this.rebuildParticles();
+                return;
+            }
+
+            const sx = this.width / prevWidth;
+            const sy = this.height / prevHeight;
+            const speedScale = this.worldScale / Math.max(prevWorldScale, 0.0001);
+
+            for (const particle of this.particles) {
+                particle.x *= sx;
+                particle.y *= sy;
+                particle.vx *= sx;
+                particle.vy *= sy;
+                particle.speed *= speedScale;
+                particle.size *= Math.sqrt(Math.max(0.1, (sx + sy) * 0.5));
+            }
+
+            for (const point of this.trailPoints) {
+                point.x *= sx;
+                point.y *= sy;
+            }
+
+            for (const sparkle of this.sparkles) {
+                sparkle.x *= sx;
+                sparkle.y *= sy;
+                sparkle.vx *= sx;
+                sparkle.vy *= sy;
+                sparkle.radius *= Math.sqrt(Math.max(0.1, (sx + sy) * 0.5));
+            }
+
+            if (this.pointer) {
+                this.pointer = {
+                    x: this.pointer.x * sx,
+                    y: this.pointer.y * sy
+                };
+            }
+            if (this.lastTrailX !== null && this.lastTrailY !== null) {
+                this.lastTrailX *= sx;
+                this.lastTrailY *= sy;
+            }
         }
 
         clearCanvases() {
@@ -483,6 +585,139 @@
             this.drawTrail(dt);
         }
 
+        exportState() {
+            if (!this.enabled || !this.width || !this.height) {
+                return null;
+            }
+            return {
+                width: this.width,
+                height: this.height,
+                dpr: this.dpr,
+                hoverHue: this.hoverHue,
+                splashActive: this.splashActive,
+                isHovering: this.isHovering,
+                pointer: this.pointer ? { x: this.pointer.x, y: this.pointer.y } : null,
+                lastTrailX: this.lastTrailX,
+                lastTrailY: this.lastTrailY,
+                particles: this.particles.slice(0, MAX_STORED_PARTICLES).map((particle) => ({
+                    x: particle.x,
+                    y: particle.y,
+                    vx: particle.vx,
+                    vy: particle.vy,
+                    speed: particle.speed,
+                    drift: particle.drift,
+                    phase: particle.phase,
+                    alpha: particle.alpha,
+                    size: particle.size,
+                    char: particle.char,
+                    color: particle.color
+                })),
+                trailPoints: this.trailPoints.slice(0, MAX_TRAIL_POINTS).map((point) => ({
+                    x: point.x,
+                    y: point.y,
+                    life: point.life,
+                    color: point.color
+                })),
+                sparkles: this.sparkles.slice(0, MAX_SPARKLES).map((sparkle) => ({
+                    x: sparkle.x,
+                    y: sparkle.y,
+                    vx: sparkle.vx,
+                    vy: sparkle.vy,
+                    radius: sparkle.radius,
+                    life: sparkle.life,
+                    color: sparkle.color
+                }))
+            };
+        }
+
+        importState(snapshot) {
+            if (!snapshot || !this.enabled || !this.width || !this.height) {
+                return false;
+            }
+
+            const sourceWidth = Math.max(1, toFiniteNumber(snapshot.width, this.width));
+            const sourceHeight = Math.max(1, toFiniteNumber(snapshot.height, this.height));
+            const sx = this.width / sourceWidth;
+            const sy = this.height / sourceHeight;
+            const sourceWorldScale = sourceHeight / ORIGINAL_WORLD_HEIGHT;
+            const speedScale = this.worldScale / Math.max(sourceWorldScale, 0.0001);
+
+            this.hoverHue = ((toFiniteNumber(snapshot.hoverHue, this.hoverHue) % 360) + 360) % 360;
+            this.splashActive = Boolean(snapshot.splashActive);
+
+            const inputParticles = Array.isArray(snapshot.particles) ? snapshot.particles : [];
+            if (inputParticles.length) {
+                const restored = [];
+                const maxCount = Math.min(inputParticles.length, MAX_STORED_PARTICLES);
+                for (let i = 0; i < maxCount; i++) {
+                    const source = inputParticles[i] || {};
+                    restored.push({
+                        x: clamp(toFiniteNumber(source.x, nextRandom() * this.width) * sx, -80, this.width + 80),
+                        y: clamp(toFiniteNumber(source.y, nextRandom() * this.height) * sy, -80, this.height + 80),
+                        vx: clamp(toFiniteNumber(source.vx, 0) * sx, -6, 6),
+                        vy: clamp(toFiniteNumber(source.vy, 0) * sy, -6, 6),
+                        speed: clamp(toFiniteNumber(source.speed, (ORIGINAL_RISE_SPEED_BASE + nextRandom() * ORIGINAL_RISE_SPEED_RANGE) * sourceWorldScale) * speedScale, 0.004 * this.worldScale, 0.16 * this.worldScale),
+                        drift: clamp(toFiniteNumber(source.drift, (nextRandom() - 0.5) * 0.8), -2.8, 2.8),
+                        phase: toFiniteNumber(source.phase, nextRandom() * Math.PI * 2),
+                        alpha: clamp(toFiniteNumber(source.alpha, nextRandomRange(0.52, 0.92)), 0.35, 1),
+                        size: clamp(toFiniteNumber(source.size, nextRandomRange(13, 26)) * Math.sqrt(Math.max(0.1, (sx + sy) * 0.5)), 8, 38),
+                        char: typeof source.char === "string" && source.char ? source.char.charAt(0) : this.randomChar(),
+                        color: typeof source.color === "string" && source.color ? source.color : this.randomColor()
+                    });
+                }
+                this.particles = restored;
+            } else {
+                this.rebuildParticles();
+            }
+
+            this.trailPoints.length = 0;
+            const inputTrailPoints = Array.isArray(snapshot.trailPoints) ? snapshot.trailPoints : [];
+            for (let i = 0; i < inputTrailPoints.length && this.trailPoints.length < MAX_TRAIL_POINTS; i++) {
+                const source = inputTrailPoints[i] || {};
+                this.trailPoints.push({
+                    x: clamp(toFiniteNumber(source.x, 0) * sx, -20, this.width + 20),
+                    y: clamp(toFiniteNumber(source.y, 0) * sy, -20, this.height + 20),
+                    life: clamp(toFiniteNumber(source.life, 0), 0, 1.6),
+                    color: typeof source.color === "string" && source.color ? source.color : ("hsl(" + this.hoverHue + ", 95%, 70%)")
+                });
+            }
+
+            this.sparkles.length = 0;
+            const inputSparkles = Array.isArray(snapshot.sparkles) ? snapshot.sparkles : [];
+            for (let i = 0; i < inputSparkles.length && this.sparkles.length < MAX_SPARKLES; i++) {
+                const source = inputSparkles[i] || {};
+                this.sparkles.push({
+                    x: clamp(toFiniteNumber(source.x, 0) * sx, -20, this.width + 20),
+                    y: clamp(toFiniteNumber(source.y, 0) * sy, -20, this.height + 20),
+                    vx: clamp(toFiniteNumber(source.vx, 0) * sx, -5, 5),
+                    vy: clamp(toFiniteNumber(source.vy, 0) * sy, -5, 5),
+                    radius: clamp(toFiniteNumber(source.radius, 1.4) * Math.sqrt(Math.max(0.1, (sx + sy) * 0.5)), 0.4, 4.8),
+                    life: clamp(toFiniteNumber(source.life, 0), 0, 1.8),
+                    color: typeof source.color === "string" && source.color ? source.color : ("hsla(" + this.hoverHue + ", 100%, 75%, 1)")
+                });
+            }
+
+            const pointer = snapshot.pointer;
+            if (pointer && Number.isFinite(Number(pointer.x)) && Number.isFinite(Number(pointer.y))) {
+                this.pointer = {
+                    x: clamp(Number(pointer.x) * sx, 0, this.width),
+                    y: clamp(Number(pointer.y) * sy, 0, this.height)
+                };
+            } else {
+                this.pointer = null;
+            }
+            this.isHovering = Boolean(snapshot.isHovering) && Boolean(this.pointer);
+
+            const rawLastTrailX = snapshot.lastTrailX;
+            const rawLastTrailY = snapshot.lastTrailY;
+            this.lastTrailX =
+                Number.isFinite(Number(rawLastTrailX)) ? clamp(Number(rawLastTrailX) * sx, -20, this.width + 20) : null;
+            this.lastTrailY =
+                Number.isFinite(Number(rawLastTrailY)) ? clamp(Number(rawLastTrailY) * sy, -20, this.height + 20) : null;
+            this.lastTimestamp = 0;
+            return true;
+        }
+
         destroy() {
             this.detachEvents();
             this.setEnabled(false);
@@ -531,7 +766,24 @@
             if (triggerButton) {
                 triggerButton.style.display = "none";
             }
+            clearPersistedState();
             return;
+        }
+
+        const persistedState = consumePersistedState();
+        if (persistedState && persistedState.backgroundFlag !== undefined) {
+            currentBackgroundFlag = normalizeBackgroundFlag(persistedState.backgroundFlag);
+        }
+        if (
+            persistedState &&
+            Number.isFinite(Number(persistedState.randomPoolIndex)) &&
+            RANDOM_POOL_SIZE > 0
+        ) {
+            ensureRandomPool();
+            randomPoolIndex = Math.floor(Number(persistedState.randomPoolIndex)) % RANDOM_POOL_SIZE;
+            if (randomPoolIndex < 0) {
+                randomPoolIndex += RANDOM_POOL_SIZE;
+            }
         }
 
         if (existingController && typeof existingController.destroy === "function") {
@@ -554,6 +806,31 @@
         let animationFrameId = 0;
         let isDestroyed = false;
         let triggerFlashTimeoutId = 0;
+
+        function persistControllerState() {
+            const paneStates = panes.map((pane) => pane.exportState());
+            writePersistedState({
+                version: 1,
+                savedAt: Date.now(),
+                backgroundFlag: currentBackgroundFlag,
+                randomPoolIndex: randomPoolIndex,
+                panes: paneStates
+            });
+        }
+
+        function restoreControllerState() {
+            if (!persistedState || !Array.isArray(persistedState.panes)) {
+                return;
+            }
+
+            for (let i = 0; i < panes.length; i++) {
+                const pane = panes[i];
+                if (!pane.enabled) {
+                    continue;
+                }
+                pane.importState(persistedState.panes[i]);
+            }
+        }
 
         function placePane(element, left, width) {
             element.style.left = Math.floor(left) + "px";
@@ -648,16 +925,19 @@
             startAnimation();
         }
 
-        function destroy() {
+        function destroy(options) {
             if (isDestroyed) {
                 return;
             }
+            const settings = options || {};
             isDestroyed = true;
             stopAnimation();
             window.removeEventListener("resize", syncLayout);
             window.removeEventListener("scroll", syncLayout);
             document.removeEventListener("visibilitychange", handleVisibilityChange);
-            window.removeEventListener("pagehide", destroy);
+            if (!settings.skipPagehideListenerRemoval) {
+                window.removeEventListener("pagehide", handlePageHide);
+            }
             if (triggerButton) {
                 triggerButton.removeEventListener("click", handleTriggerClick);
                 triggerButton.classList.remove(SWITCHING_CLASS);
@@ -674,17 +954,29 @@
             if (window[GLOBAL_CONTROLLER_KEY] && window[GLOBAL_CONTROLLER_KEY].destroy === destroy) {
                 delete window[GLOBAL_CONTROLLER_KEY];
             }
+            if (!settings.keepPersistedState) {
+                clearPersistedState();
+            }
+        }
+
+        function handlePageHide() {
+            persistControllerState();
+            destroy({
+                keepPersistedState: true,
+                skipPagehideListenerRemoval: true
+            });
         }
 
         setBackgroundFlag(currentBackgroundFlag);
         syncLayout();
+        restoreControllerState();
         window.addEventListener("resize", syncLayout, { passive: true });
         window.addEventListener("scroll", syncLayout, { passive: true });
         document.addEventListener("visibilitychange", handleVisibilityChange);
         if (triggerButton) {
             triggerButton.addEventListener("click", handleTriggerClick);
         }
-        window.addEventListener("pagehide", destroy, { once: true });
+        window.addEventListener("pagehide", handlePageHide, { once: true });
         startAnimation();
 
         window[GLOBAL_CONTROLLER_KEY] = {
