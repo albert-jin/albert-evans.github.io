@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>代码雨 · 神秘水花溅射</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: 'Fira Code', 'Courier New', monospace;
+      background-color: #0a0c0f;
+    }
+    #info {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      color: rgba(180, 220, 255, 0.7);
+      font-size: 14px;
+      letter-spacing: 2px;
+      text-shadow: 0 0 15px rgba(0, 160, 255, 0.5);
+      background: rgba(8, 12, 18, 0.6);
+      backdrop-filter: blur(5px);
+      padding: 8px 20px;
+      border-radius: 30px;
+      border: 1px solid rgba(0, 200, 255, 0.3);
+      pointer-events: none;
+    }
+    .instruction {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      color: #8ab3ff;
+      font-size: 14px;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(4px);
+      padding: 8px 18px;
+      border-radius: 25px;
+      border: 1px solid rgba(100, 180, 255, 0.4);
+      letter-spacing: 1px;
+      box-shadow: 0 0 25px rgba(0, 120, 255, 0.3);
+    }
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div id="info">⚡ 代码深渊 · 符号升腾</div>
+  <div class="instruction">🖱️ 点击屏幕 · 水花溅射</div>
+
+  <!-- 引入 Three.js -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
+      }
+    }
+  </script>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+    import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+    import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+    import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+    
+    // --- 初始化场景、相机、渲染器 ---
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x050a14);
+    // 添加一点迷雾效果，增强神秘感
+    scene.fog = new THREE.FogExp2(0x050a14, 0.00015);
+    
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 2.5, 14);
+    camera.lookAt(0, 1.5, 0);
+    
+    const renderer = new THREE.WebGLRenderer({ 
+      antialias: true,
+      powerPreference: "high-performance"
+    });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // 限制过高像素比以防性能问题
+    renderer.setClearColor(0x03050a);
+    document.body.appendChild(renderer.domElement);
+    
+    // --- 后期处理：辉光效果，让代码符号更神秘 ---
+    const renderScene = new RenderPass(scene, camera);
+    const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
+    bloomPass.threshold = 0.1;
+    bloomPass.strength = 1.2;
+    bloomPass.radius = 0.5;
+    
+    const composer = new EffectComposer(renderer);
+    composer.addPass(renderScene);
+    composer.addPass(bloomPass);
+    
+    // --- 灯光（对文字纹理的Sprite不影响，但保留以备扩展）---
+    const ambientLight = new THREE.AmbientLight(0x224466);
+    scene.add(ambientLight);
+    
+    // --- 全局参数 ---
+    const particlesCount = 650;            // 符号数量
+    const textChars = "01ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz{}[]()<>/\\|?*&^%$#@!+-=~`;:".split("");
+    const riseSpeedBase = 0.025;          // 基础上升速度
+    const riseSpeedRange = 0.02;          // 速度变化范围
+    
+    // 存储所有粒子的数据
+    const particlesData = [];
+    
+    // 存储Sprite对象，用于更新位置和动画
+    const sprites = [];
+    
+    // 用于水花效果的物理状态
+    let splashActive = false;
+    let splashCenter = new THREE.Vector3(0, 0, 0);
+    let splashRadius = 4.5;
+    let splashStrength = 0.18;            // 溅射力度
+    let splashDecay = 0.92;              // 阻力衰减
+    
+    // 存储每个粒子的速度向量（用于水花溅射）
+    const velocities = [];
+    
+    // --- 创建纹理：将文字绘制到Canvas上 ---
+    function createTextTexture(char, color = '#b0e0ff') {
+      const canvas = document.createElement('canvas');
+      canvas.width = 64;
+      canvas.height = 64;
+      const ctx = canvas.getContext('2d');
+      
+      // 清空画布
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      // 绘制发光背景光晕（可选）
+      ctx.shadowColor = 'rgba(0, 180, 255, 0.9)';
+      ctx.shadowBlur = 12;
+      ctx.font = 'bold 38px "Fira Code", "Courier New", monospace';
+      ctx.fillStyle = color;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(char, canvas.width/2, canvas.height/2);
+      
+      // 再绘制一层更亮的文字，增加清晰度
+      ctx.shadowBlur = 8;
+      ctx.fillStyle = '#e0f0ff';
+      ctx.fillText(char, canvas.width/2, canvas.height/2);
+      
+      const texture = new THREE.CanvasTexture(canvas);
+      texture.needsUpdate = true;
+      return texture;
+    }
+    
+    // 预创建一些不同颜色的纹理，增加视觉层次
+    const colorPalette = [
+      '#a0d4ff', // 浅蓝
+      '#7ec8ff', 
+      '#5bb8ff',
+      '#3da5ff',
+      '#b0f0ff',
+      '#80e0ff',
+      '#c0a0ff', // 淡紫
+      '#9f80ff',
+      '#ffb0d0', // 淡粉（稀有）
+    ];
+    
+    // --- 生成粒子系统 ---
+    function createParticleSystem() {
+      // 清除现有粒子（如果有）
+      sprites.forEach(sprite => scene.remove(sprite));
+      sprites.length = 0;
+      particlesData.length = 0;
+      velocities.length = 0;
+      
+      for (let i = 0; i < particlesCount; i++) {
+        // 随机选择字符
+        const char = textChars[Math.floor(Math.random() * textChars.length)];
+        // 随机选择颜色，大部分为蓝色调，偶尔出现其他颜色
+        let color;
+        if (Math.random() < 0.7) {
+          color = colorPalette[Math.floor(Math.random() * 6)]; // 蓝色系
+        } else if (Math.random() < 0.5) {
+          color = colorPalette[Math.floor(Math.random() * 2) + 6]; // 紫色系
+        } else {
+          color = colorPalette[8]; // 淡粉
+        }
+        
+        const texture = createTextTexture(char, color);
+        const material = new THREE.SpriteMaterial({ 
+          map: texture,
+          blending: THREE.AdditiveBlending,
+          depthTest: true,
+          depthWrite: false,
+          opacity: 0.9
+        });
+        const sprite = new THREE.Sprite(material);
+        
+        // 随机位置：X轴较宽分布，Y轴从底部到顶部以上，Z轴有一定深度
+        const posX = (Math.random() - 0.5) * 12;
+        // Y轴：从底部下方开始，逐渐上升，范围 -2 到 8 左右
+        const posY = -2 + Math.random() * 10;
+        const posZ = (Math.random() - 0.5) * 7;
+        
+        sprite.position.set(posX, posY, posZ);
+        
+        // 随机大小
+        const scale = 0.35 + Math.random() * 0.55;
+        sprite.scale.set(scale, scale, 1);
+        
+        scene.add(sprite);
+        sprites.push(sprite);
+        
+        // 存储粒子数据
+        particlesData.push({
+          baseSpeed: riseSpeedBase + Math.random() * riseSpeedRange,
+          offsetX: (Math.random() - 0.5) * 0.8, // 轻微水平漂移
+          offsetZ: (Math.random() - 0.5) * 0.8,
+          initY: posY,
+          color: color,
+          char: char
+        });
+        
+        // 初始化速度向量 (vx, vy, vz) 用于水花效果，平时为零
+        velocities.push(new THREE.Vector3(0, 0, 0));
+      }
+    }
+    
+    // --- 重置所有粒子到正常上升状态（清除水花速度）---
+    function resetVelocities() {
+      for (let i = 0; i < velocities.length; i++) {
+        velocities[i].set(0, 0, 0);
+      }
+    }
+    
+    // --- 处理鼠标点击，触发水花溅射 ---
+    function handleMouseClick(event) {
+      // 使用射线检测或直接计算屏幕坐标对应的3D平面位置
+      // 为了效果直观，我们计算点击位置在相机前方平面上的投影
+      const mouse = new THREE.Vector2();
+      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+      
+      // 使用射线投射到Z=0平面（或某个固定深度平面）
+      const raycaster = new THREE.Raycaster();
+      raycaster.setFromCamera(mouse, camera);
+      
+      // 计算与平面 Y=0 的交点？我们想要一个与视线垂直的平面？简单使用Z=0平面并调整。
+      // 更稳健：计算射线与平面 Z = 0 的交点（世界坐标系）
+      const planeZ = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
+      const targetPoint = new THREE.Vector3();
+      const intersection = raycaster.ray.intersectPlane(planeZ, targetPoint);
+      
+      if (intersection) {
+        // 设置溅射中心
+        splashCenter.copy(intersection);
+        // 限制溅射中心的范围，避免太偏
+        splashCenter.x = Math.max(-6, Math.min(6, splashCenter.x));
+        splashCenter.y = Math.max(-1.5, Math.min(7.5, splashCenter.y));
+        splashCenter.z = Math.max(-3.5, Math.min(3.5, splashCenter.z));
+      } else {
+        // 如果射线未命中平面，使用默认中心稍微偏移
+        splashCenter.set(
+          (Math.random() - 0.5) * 5,
+          2.5 + (Math.random() - 0.5) * 3,
+          (Math.random() - 0.5) * 3
+        );
+      }
+      
+      // 激活水花效果
+      splashActive = true;
+      
+      // 根据点击位置计算每个粒子的溅射速度
+      for (let i = 0; i < sprites.length; i++) {
+        const sprite = sprites[i];
+        const pos = sprite.position;
+        
+        // 计算从溅射中心指向粒子的方向
+        const dirX = pos.x - splashCenter.x;
+        const dirY = pos.y - splashCenter.y;
+        const dirZ = pos.z - splashCenter.z;
+        const dist = Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        
+        // 如果距离非常近，给予随机方向避免除以零
+        let normX, normY, normZ;
+        if (dist < 0.1) {
+          // 随机单位向量
+          const theta = Math.random() * Math.PI * 2;
+          const phi = Math.random() * Math.PI * 2;
+          normX = Math.sin(theta) * Math.cos(phi);
+          normY = Math.sin(theta) * Math.sin(phi);
+          normZ = Math.cos(theta);
+        } else {
+          normX = dirX / dist;
+          normY = dirY / dist;
+          normZ = dirZ / dist;
+        }
+        
+        // 溅射强度：距离越近，力度越大（但设置最大值）
+        const strengthFactor = Math.max(0, 1 - dist / splashRadius);
+        const impulse = splashStrength * strengthFactor * (1.8 + Math.random() * 0.7);
+        
+        // 设置速度：方向向外，同时加入一些向上的力让水花更生动
+        velocities[i].set(
+          normX * impulse + (Math.random() - 0.5) * 0.08,
+          normY * impulse + Math.random() * 0.12 + 0.04, // 额外向上
+          normZ * impulse + (Math.random() - 0.5) * 0.08
+        );
+      }
+      
+      // 短暂延迟后逐渐衰减水花效果（通过衰减系数实现）
+      setTimeout(() => {
+        // 不直接关闭，而是让速度自然衰减到零
+      }, 200);
+    }
+    
+    // --- 动画循环与更新逻辑 ---
+    function animate() {
+      requestAnimationFrame(animate);
+      
+      // 更新粒子位置
+      for (let i = 0; i < sprites.length; i++) {
+        const sprite = sprites[i];
+        const data = particlesData[i];
+        const vel = velocities[i];
+        
+        // 基础上升运动 (如果水花速度很小或为零，则主要上升)
+        if (!splashActive || (vel.x === 0 && vel.y === 0 && vel.z === 0)) {
+          // 正常上升模式
+          sprite.position.y += data.baseSpeed;
+          // 轻微水平漂移
+          sprite.position.x += Math.sin(Date.now() * 0.002 + i) * 0.002 + data.offsetX * 0.008;
+          sprite.position.z += Math.cos(Date.now() * 0.0015 + i) * 0.002 + data.offsetZ * 0.008;
+        } else {
+          // 水花模式：速度影响位置
+          sprite.position.x += vel.x;
+          sprite.position.y += vel.y;
+          sprite.position.z += vel.z;
+          
+          // 速度衰减
+          vel.x *= splashDecay;
+          vel.y *= splashDecay;
+          vel.z *= splashDecay;
+          
+          // 如果速度非常小，归零
+          if (Math.abs(vel.x) < 0.0001) vel.x = 0;
+          if (Math.abs(vel.y) < 0.0001) vel.y = 0;
+          if (Math.abs(vel.z) < 0.0001) vel.z = 0;
+        }
+        
+        // 边界重置：当粒子升到顶部以上，或飘出太远，重置到底部
+        if (sprite.position.y > 8.5) {
+          sprite.position.y = -2.5;
+          sprite.position.x = (Math.random() - 0.5) * 11;
+          sprite.position.z = (Math.random() - 0.5) * 6.5;
+          // 重置速度（避免残留水花速度）
+          velocities[i].set(0, 0, 0);
+        }
+        // 侧向边界软限制
+        if (Math.abs(sprite.position.x) > 7.5) {
+          sprite.position.x = (Math.random() - 0.5) * 6;
+        }
+        if (Math.abs(sprite.position.z) > 5.2) {
+          sprite.position.z = (Math.random() - 0.5) * 4.5;
+        }
+        
+        // 动态微调透明度或大小基于高度？可选
+        const yNorm = (sprite.position.y + 2) / 10.5; // 0到1左右
+        sprite.material.opacity = 0.55 + yNorm * 0.45;
+      }
+      
+      // 检查是否所有速度都接近零，如果是，可以认为水花结束（但保留splashActive标记用于判断）
+      let allStill = true;
+      for (let i = 0; i < velocities.length; i++) {
+        const v = velocities[i];
+        if (Math.abs(v.x) > 0.001 || Math.abs(v.y) > 0.001 || Math.abs(v.z) > 0.001) {
+          allStill = false;
+          break;
+        }
+      }
+      if (allStill && splashActive) {
+        splashActive = false;
+        // 确保所有速度归零
+        resetVelocities();
+      }
+      
+      // 轻微旋转相机或保持动态视角？为了神秘感，让相机缓慢自动环绕
+      // 但为了不干扰用户点击，使用非常缓慢的移动
+      // camera.position.x = Math.sin(Date.now() * 0.0001) * 1.2;
+      // camera.position.z = 14 + Math.cos(Date.now() * 0.0002) * 1.5;
+      camera.lookAt(0, 2.2, 0);
+      
+      // 使用composer渲染
+      composer.render();
+    }
+    
+    // --- 窗口大小调整 ---
+    window.addEventListener('resize', onWindowResize, false);
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      composer.setSize(window.innerWidth, window.innerHeight);
+    }
+    
+    // --- 绑定点击事件 ---
+    window.addEventListener('click', handleMouseClick);
+    
+    // 移动端触摸支持
+    window.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      if (e.touches.length === 1) {
+        const touch = e.touches[0];
+        // 模拟鼠标事件
+        handleMouseClick({ clientX: touch.clientX, clientY: touch.clientY });
+      }
+    }, { passive: false });
+    
+    // --- 启动一切 ---
+    createParticleSystem();
+    animate();
+    
+    console.log('✨ 神秘代码雨已启动！点击屏幕让符号如水花般溅射。');
+  </script>
+</body>
+</html>
