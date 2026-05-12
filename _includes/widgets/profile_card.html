@@ -39,6 +39,17 @@
                         </div>
                         <div class="text-profile-bio mt-3" {% if site.data.profile.short_bio_text_justify %}style="text-align: justify;"{% endif %}>
                             {{ site.data.profile.short_bio }}
+                            {%- comment -%}
+                              Postdoc-target paragraph: switch between Oversea Advanced Research Institution
+                              and Imperial College London based on the 2027-07-01 cutoff.
+                            {%- endcomment -%}
+                            {%- assign postdoc_cutoff = "2027-07-01" | date: "%s" | plus: 0 -%}
+                            {%- assign postdoc_now = site.time | date: "%s" | plus: 0 -%}
+                            {%- if postdoc_now < postdoc_cutoff -%}
+                                {{ site.data.profile.short_bio_postdoc_before_jul2027 }}
+                            {%- else -%}
+                                {{ site.data.profile.short_bio_postdoc_after_jul2027 }}
+                            {%- endif -%}
                         </div>
                         {% if site.data.profile.cv_link %}
                             <a target="_blank" href="{{ site.data.profile.cv_link | relative_url }}"><i class="fas fa-file-alt"></i> Curriculum Vitae</a> <br/>

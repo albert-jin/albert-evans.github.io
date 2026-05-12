@@ -40,6 +40,18 @@ short_bio: >-
       where I focus on practical LLM system development, model reasoning/tuning workflows, and industry-oriented deployment.
   </p>
   <!--<a href=""></a>-->
+# Postdoc target paragraph — rendered conditionally in _includes/widgets/profile_card*.html.
+# Cutoff: 2027-07-01. Before the cutoff, render `short_bio_postdoc_before_jul2027`
+# (Oversea Advanced Research Institution); on/after the cutoff, render
+# `short_bio_postdoc_after_jul2027` (the original Imperial College London label).
+short_bio_postdoc_before_jul2027: >-
+  <p>
+    I plan to pursue a 2-3 year postdoctoral position at <a href="https://www.topuniversities.com/world-university-rankings">Oversea Advanced Research Institution</a> in the future.
+    If You, Your university, or Your research institution</span>
+    are willing to support his application for <strong><a target="_blank" href="https://www.nsfc.gov.cn/p1/3381/2824/121517.html">Overseas Outstanding Young Scientist programs</a></strong>,
+    please contact: <a href="mailto:weiqiangjin@stu.xjtu.edu.cn">weiqiangjin@stu.xjtu.edu.cn</a>.
+  </p>
+short_bio_postdoc_after_jul2027: >-
   <p>
     I plan to pursue a 2-3 year postdoctoral position at <a href="https://www.imperial.ac.uk/">Imperial College London</a> in the future.
     If You, Your university, or Your research institution</span>
