@@ -1,5 +1,5 @@
 ---
-title: "Our Review Paper on Complex Logical Reasoning in Large Vision-Language Models Accepted by <a href=\"https://www.techscience.com/cmes\" target=\"_blank\" rel=\"noopener noreferrer\">CMES-CMES-Computer Modeling in Engineering Sciences</a>, Congratulations"
+title: "[26-06] Our Review Paper on Complex Logical Reasoning in Large Vision-Language Models Accepted by <a href=\"https://www.techscience.com/cmes\" target=\"_blank\" rel=\"noopener noreferrer\">CMES-CMES-Computer Modeling in Engineering Sciences</a>, Congratulations."
 date: "2026-06-15 10:00:00 +0800"
 display_date: "Jun 15"
 ---
