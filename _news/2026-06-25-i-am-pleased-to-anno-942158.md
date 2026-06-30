@@ -1,5 +1,5 @@
 ---
-title: "I am pleased to announce that I officially passed the review process and successfully joined the <strong>Youth Editorial Board</strong> of the journal <strong><em>KNOWLEDGE ORGANIZATION</em></strong> (<a href=\"https://www.letpub.com.cn/index.php?journalid=14788&page=journalapp&view=detail\" target=\"_blank\" rel=\"noopener noreferrer\">via this link</a>) on Thursday, June 25, 2026."
+title: "[26-06] I am pleased to announce that I officially passed the review process and successfully joined the <strong>Youth Editorial Board</strong> of the journal <strong><em>KNOWLEDGE ORGANIZATION</em></strong> (<a href=\"https://www.letpub.com.cn/index.php?journalid=14788&page=journalapp&view=detail\" target=\"_blank\" rel=\"noopener noreferrer\">via this link</a>) on Thursday, June 25, 2026."
 date: "2026-06-25 10:00:00 +0800"
 display_date: "Jun 25"
 ---
